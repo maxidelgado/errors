@@ -183,5 +183,5 @@ func WriteHTTP(err error, w http.ResponseWriter) {
 	// INFO: consider sending back "unknown server error" message
 	status, msg, _ := HTTPStatusCodeMessage(err)
 	w.WriteHeader(status)
-	w.Write([]byte(msg))
+	w.Write([]byte(msg["message"].(string)))
 }
