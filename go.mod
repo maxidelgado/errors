@@ -1,3 +1,3 @@
-module github.com/bnkamalesh/errors
+module github.com/maxidelgado/errors
 
 go 1.14
