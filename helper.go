@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+type Map map[string]interface{}
+
 func newerr(e error, message string, file string, line int, etype errType) *Error {
 	return &Error{
 		original: e,
@@ -162,13 +164,17 @@ func DownstreamDependencyTimedoutErr(original error, message string) *Error {
 
 // HTTPStatusCodeMessage returns the appropriate HTTP status code, message, boolean for the error
 // the boolean value is true if the error was of type *Error, false otherwise
-func HTTPStatusCodeMessage(err error) (int, string, bool) {
+func HTTPStatusCodeMessage(err error) (int, Map, bool) {
+	msg := make(Map)
+	msg["error"] = err.Error()
 	derr, _ := err.(*Error)
 	if derr != nil {
-		return derr.HTTPStatusCode(), derr.Message(), true
+		msg["message"] = derr.Message()
+		msg["code"] = derr.HTTPStatusCode()
+		return derr.HTTPStatusCode(), msg, true
 	}
 
-	return http.StatusInternalServerError, err.Error(), false
+	return http.StatusInternalServerError, msg, false
 }
 
 // WriteHTTP is a convenience method which will check if the error is of type *Error and
