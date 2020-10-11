@@ -188,7 +188,7 @@ func WriteHTTP(err error, w http.ResponseWriter) {
 }
 
 func getFileLine() (file string, line int) {
-	_, file, line, _ = runtime.Caller(1)
+	_, file, line, _ = runtime.Caller(2)
 	path := strings.Split(file, "/")
 	file = path[len(path)-1]
 
