@@ -3,7 +3,6 @@ package errors
 
 import (
 	"net/http"
-	"runtime"
 	"strings"
 )
 
@@ -175,7 +174,7 @@ func (e *Error) Type() errType {
 
 // New returns a new instance of Error with the relavant fields initialized
 func New(msg string) *Error {
-	_, file, line, _ := runtime.Caller(1)
+	file, line := getFileLine()
 	return newerr(nil, msg, file, line, defaultErrType)
 }
 
